@@ -10,6 +10,6 @@ public class ConfigController {
 
     @GetMapping
     public String getConfiguration() {
-        return "configurationPage";
+        return "admin/configurationPage";
     }
 }
