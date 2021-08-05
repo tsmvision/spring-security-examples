@@ -1,3 +1,36 @@
 #spring:
 #  thymeleaf:
 #    prefix: classpath:/templates/
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=springsecurity
+    username: postgres
+    password: postgres
+  jpa:
+#    show-sql: true
+    hibernate.ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+#        jdbc:
+#          lob:
+#            non_contextual_creation: true
+  sql:
+    init:
+      mode: always
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
