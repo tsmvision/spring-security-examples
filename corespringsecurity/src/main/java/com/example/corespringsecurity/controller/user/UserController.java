@@ -21,11 +21,6 @@ public class UserController {
         return "user/myPage";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "user/login/login";
-    }
-
     @GetMapping("/users")
     public String createUser() {
         return "user/login/register";

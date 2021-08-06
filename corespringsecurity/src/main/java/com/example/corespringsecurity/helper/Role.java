@@ -1,5 +1,7 @@
 package com.example.corespringsecurity.helper;
 
-public enum Role {
-    USER, MANAGER, ADMIN
+public class Role {
+    public static String USER = "USER";
+    public static String MANAGER = "MANAGER";
+    public static String ADMIN = "ADMIN";
 }

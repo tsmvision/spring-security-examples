@@ -1,34 +1,45 @@
 package com.example.corespringsecurity.config;
 
+import com.example.corespringsecurity.security.handler.CustomAuthenticationSuccessHandler;
+import com.example.corespringsecurity.security.provider.CustomAuthenticationProvider;
 import com.example.corespringsecurity.helper.PageUrl;
 import com.example.corespringsecurity.helper.Role;
-import com.example.corespringsecurity.helper.UserId;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(authenticationProvider());
+    }
 
-        String password = passwordEncoder().encode("1111");
-
-        auth.inMemoryAuthentication().withUser(UserId.USER.label).password(password).roles(Role.USER.toString());
-        auth.inMemoryAuthentication().withUser(UserId.MANAGER.label).password(password).roles(Role.MANAGER.toString());
-        auth.inMemoryAuthentication().withUser(UserId.ADMIN.label).password(password).roles(Role.ADMIN.toString());
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        return new CustomAuthenticationProvider();
     }
 
     @Bean
@@ -41,20 +52,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(
-                        PageUrl.ROOT.url,
-                        PageUrl.USER.url,
-                        PageUrl.LOGIN.url,
-                        PageUrl.REGISTER.url
+                        PageUrl.ROOT,
+                        PageUrl.USER,
+                        PageUrl.LOGIN,
+                        PageUrl.REGISTER
                 ).permitAll()
 //                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers(PageUrl.MY_PAGE.url).hasRole(Role.USER.toString())
-                .antMatchers(PageUrl.MESSAGES.url).hasRole(Role.MANAGER.toString())
-                .antMatchers(PageUrl.CONFIGURATION.url).hasRole(Role.ADMIN.toString())
+                .antMatchers(PageUrl.MY_PAGE).hasRole(Role.USER)
+                .antMatchers(PageUrl.MESSAGES).hasRole(Role.MANAGER)
+                .antMatchers(PageUrl.CONFIGURATION).hasRole(Role.ADMIN)
                 .anyRequest().authenticated()
-        ;
+                        .and()
 
-        http
                 .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login_proc")
+                .authenticationDetailsSource(authenticationDetailsSource)
+                .defaultSuccessUrl("/")
+                .successHandler(authenticationSuccessHandler)
+                .permitAll()
         ;
 
 //        http.csrf().disable();
@@ -63,7 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+//        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        web.ignoring().antMatchers("resources/static/**");
+
 //        web.ignoring().antMatchers("/h2-console/**");
     }
 }

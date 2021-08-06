@@ -14,13 +14,15 @@
 
                             <h3 class="mb-5">Sign in</h3>
 
+                            <form th:action="@{/login_proc}" method="post">
+                                <input type="hidden" th:value="secret" name="secret_key" />
                             <div class="form-outline mb-4">
-                                <input type="email" id="typeEmailX" class="form-control form-control-lg" />
-                                <label class="form-label" for="typeEmailX">Email</label>
+                                <input type="text" id="typeEmailX" name="username" class="form-control form-control-lg" />
+                                <label class="form-label" for="typeEmailX">username</label>
                             </div>
 
                             <div class="form-outline mb-4">
-                                <input type="password" id="typePasswordX" class="form-control form-control-lg" />
+                                <input type="password" id="typePasswordX" name="password" class="form-control form-control-lg" />
                                 <label class="form-label" for="typePasswordX">Password</label>
                             </div>
 
@@ -36,6 +38,7 @@
                             </div>
 
                             <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -1,18 +1,12 @@
 package com.example.corespringsecurity.helper;
 
-public enum PageUrl {
-    ROOT("/"),
-    MY_PAGE("/myPage"),
-    MESSAGES("/messages"),
-    CONFIGURATION("/configuration"),
-    USER("/user"),
-    LOGIN("/login"),
-    REGISTER("/users")
-    ;
-
-    public final String url;
-
-    private PageUrl(String url) {
-        this.url = url;
-    }
+public class PageUrl {
+    public static String ROOT = "/";
+    public static String MY_PAGE = "/myPage";
+    public static String MESSAGES = "/messages";
+    public static String CONFIGURATION = "/configuration";
+    public static String USER = "/user";
+    public static String LOGIN = "/login";
+    public static String REGISTER = "/users";
 }
+
