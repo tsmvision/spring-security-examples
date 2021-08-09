@@ -1,5 +1,6 @@
 package com.example.corespringsecurity.config;
 
+import com.example.corespringsecurity.security.handler.CustomAccessDeniedHandler;
 import com.example.corespringsecurity.security.handler.CustomAuthenticationSuccessHandler;
 import com.example.corespringsecurity.security.provider.CustomAuthenticationProvider;
 import com.example.corespringsecurity.helper.PageUrl;
@@ -17,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
@@ -30,6 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+//    private final AccessDeniedHandler accessDeniedHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,6 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
+        accessDeniedHandler.setErrorPage("/denied");
+
+        return accessDeniedHandler;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -54,23 +67,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         PageUrl.ROOT,
                         PageUrl.USER,
-                        PageUrl.LOGIN,
-                        PageUrl.REGISTER
+//                        PageUrl.LOGIN,
+                        PageUrl.REGISTER,
+                        "login/**",
+                        "/login*"
                 ).permitAll()
 //                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(PageUrl.MY_PAGE).hasRole(Role.USER)
                 .antMatchers(PageUrl.MESSAGES).hasRole(Role.MANAGER)
                 .antMatchers(PageUrl.CONFIGURATION).hasRole(Role.ADMIN)
                 .anyRequest().authenticated()
-                        .and()
+        ;
 
-                .formLogin()
+        http     .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login_proc")
                 .authenticationDetailsSource(authenticationDetailsSource)
                 .defaultSuccessUrl("/")
                 .successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 .permitAll()
+        ;
+
+        http
+                .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
         ;
 
 //        http.csrf().disable();
