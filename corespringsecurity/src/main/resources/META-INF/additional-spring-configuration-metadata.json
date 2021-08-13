@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "errors.error-page-url",
+      "type": "java.lang.String",
+      "description": "Description for errors.error-page-url."
+  }
+] }
