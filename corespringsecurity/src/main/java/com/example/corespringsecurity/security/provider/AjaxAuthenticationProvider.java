@@ -1,13 +1,13 @@
 package com.example.corespringsecurity.security.provider;
 
 import com.example.corespringsecurity.security.common.FormWebAuthenticationDetails;
-import com.example.corespringsecurity.security.handler.CustomAuthenticationSuccessHandler;
+import com.example.corespringsecurity.security.token.AjaxAuthenticationToken;
 import com.example.corespringsecurity.service.AccountContext;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -16,21 +16,23 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
+@Primary
 @Configuration
 @RequiredArgsConstructor
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
-//    @Autowired
     @Lazy
     private final UserDetailsService userDetailsService;
 
     // TODO: find the way to remove @Authowired here
-//    @Autowired
-    @Lazy
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+//    @Lazy
+    private  PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
         String username = authentication.getName();
@@ -39,9 +41,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(username);
 
         passwordMatched(password, accountContext.getPassword());
-        secretKeyMatched(authentication);
+//        secretKeyMatched(authentication);
 
-        return new UsernamePasswordAuthenticationToken(
+        return new AjaxAuthenticationToken(
                 accountContext.getAccount(), null, accountContext.getAuthorities()
         );
     }
@@ -62,7 +64,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(aClass);
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(AjaxAuthenticationToken.class);
     }
 }
