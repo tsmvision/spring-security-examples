@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="sidebar" class="col-md-2 d-none d-md-block bg-light sidebar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/}">
+                    <span data-feather="home"></span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/myPage}">
+                    <span data-feather="file"></span>
+                    My Page
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/messages}">
+                    <span data-feather="shopping-cart"></span>
+                    Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/configuration}">
+                    <span data-feather="users"></span>
+                    Configuration
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

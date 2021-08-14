@@ -51,13 +51,13 @@ public class LoginController {
         return "user/login/denied";
     }
 
-    @GetMapping("/api/isAuthenticated")
-    @ResponseBody
-    public ResponseEntity<String> isAuthenticated(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean authenticate = request.authenticate(response);
-        if (authenticate) {
-            return new ResponseEntity<>("authenticated", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("not authenticated", HttpStatus.UNAUTHORIZED);
-    }
+//    @GetMapping("/api/isAuthenticated")
+//    @ResponseBody
+//    public ResponseEntity<String> isAuthenticated(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        boolean authenticate = request.authenticate(response);
+//        if (authenticate) {
+//            return new ResponseEntity<>("authenticated", HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>("not authenticated", HttpStatus.UNAUTHORIZED);
+//    }
 }

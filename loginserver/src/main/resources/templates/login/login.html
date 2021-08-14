@@ -13,12 +13,12 @@
                         <div class="card-body p-5 text-center">
 
                             <h3 class="mb-5">Sign in</h3>
-                            <div th:if="${param.error}" class="form-group">
-                                <span th:text="${exception}" class="alsert alsert-danger">exception error</span>
-                            </div>
+<!--                            <div th:if="${param.error}" class="form-group">-->
+<!--                                <span th:text="${exception}" class="alsert alsert-danger">exception error</span>-->
+<!--                            </div>-->
 
                             <form th:action="@{/login_proc}" method="post">
-                                <input type="hidden" th:value="secret" name="secret_key" />
+<!--                                <input type="hidden" th:value="secret" name="secret_key" />-->
                             <div class="form-outline mb-4">
                                 <input type="text" id="typeEmailX" name="username" class="form-control form-control-lg" />
                                 <label class="form-label" for="typeEmailX">username</label>
