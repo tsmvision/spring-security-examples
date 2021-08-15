@@ -1,12 +1,12 @@
 package com.springsecurity.loginserver.security.provider;
 
-import com.springsecurity.loginserver.security.service.AccountContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,12 +24,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        AccountContext accountContext = (AccountContext) userDetailsService.loadUserByUsername(username);
+        User user = (User) userDetailsService.loadUserByUsername(username);
 
-        passwordMatched(password, accountContext.getPassword());
+        passwordMatched(password, user.getPassword());
 
         return new UsernamePasswordAuthenticationToken(
-            accountContext.getAccount(), null, accountContext.getAuthorities()
+            user.getUsername(), user.getPassword(), user.getAuthorities()
         );
     }
 

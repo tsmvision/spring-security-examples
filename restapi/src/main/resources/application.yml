@@ -1,6 +1,7 @@
 #spring:
 #  thymeleaf:
 #    prefix: classpath:/templates/
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres?currentSchema=loginserver
@@ -12,13 +13,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#        default_schema: loginservera
+  #        default_schema: loginservera
   #        jdbc:
   #          lob:
   #            non_contextual_creation: true
-#  sql:
-#    init:
-#      mode: always
+  #  sql:
+  #    init:
+  #      mode: always
   ## separate datasource for spring session
   session:
     store-type: jdbc
@@ -46,5 +47,6 @@ session:
     driverClassName: org.postgresql.Driver
     username: postgres
     password: postgres
+
 server:
-  port: 7000
+  port: 8000

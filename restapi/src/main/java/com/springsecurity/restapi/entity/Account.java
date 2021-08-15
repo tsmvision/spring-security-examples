@@ -1,11 +1,10 @@
-package com.springsecurity.loginserver.entity;
+package com.springsecurity.restapi.entity;
 
-import com.springsecurity.loginserver.enums.UserRole;
+import com.springsecurity.restapi.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
