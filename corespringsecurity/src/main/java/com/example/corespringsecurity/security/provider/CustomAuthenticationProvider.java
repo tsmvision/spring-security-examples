@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@Primary
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -27,8 +29,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     // TODO: find the way to remove @Authowired here
 //    @Autowired
-    @Lazy
-    private PasswordEncoder passwordEncoder;
+//    @Lazy
+//    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -47,7 +49,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private void passwordMatched(String originalPassword, String passwordFromContext) {
-        if (!passwordEncoder.matches(originalPassword, passwordFromContext)) {
+//        if (!passwordEncoder.matches(originalPassword, passwordFromContext)) {
+//            throw new BadCredentialsException("BadCredentialException");
+//        }
+        if (!originalPassword.equals(passwordFromContext))  {
             throw new BadCredentialsException("BadCredentialException");
         }
     }

@@ -1,7 +1,6 @@
 package com.example.corespringsecurity.service;
 
-import com.example.corespringsecurity.domain.Account;
-import com.example.corespringsecurity.domain.AccountDto;
+import com.example.corespringsecurity.domain.entity.Account;
 import com.example.corespringsecurity.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

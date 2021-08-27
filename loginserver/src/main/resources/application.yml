@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#        default_schema: loginservera
+#        default_schema: loginserver
   #        jdbc:
   #          lob:
   #            non_contextual_creation: true

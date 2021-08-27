@@ -3,17 +3,21 @@
 #    prefix: classpath:/templates/
 
 spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=springsecurity
+#    username: postgres
+#    password: postgres
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=springsecurity
-    username: postgres
-    password: postgres
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
   jpa:
     #    show-sql: true
     hibernate.ddl-auto: none
     properties:
       hibernate:
         format_sql: true
-        default_schema: springsecurity
+#        default_schema: springsecurity
 #        jdbc:
 #          lob:
 #            non_contextual_creation: true

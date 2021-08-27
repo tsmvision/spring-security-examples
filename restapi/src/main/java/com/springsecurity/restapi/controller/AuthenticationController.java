@@ -1,5 +1,6 @@
 package com.springsecurity.restapi.controller;
 
+import com.springsecurity.restapi.dto.AuthResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     @GetMapping
-    public ResponseEntity<Boolean> isAuthenticated() {
-        return new ResponseEntity<>(isLoggedIn(), HttpStatus.OK);
+    public ResponseEntity<AuthResponseDto> isAuthenticated() {
+        return new ResponseEntity<>(new AuthResponseDto(isLoggedIn()), HttpStatus.OK);
     }
 
     private boolean isLoggedIn() {

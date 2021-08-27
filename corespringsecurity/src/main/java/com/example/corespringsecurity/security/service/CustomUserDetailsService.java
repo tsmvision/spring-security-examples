@@ -1,7 +1,10 @@
 package com.example.corespringsecurity.security.service;
 
-import com.example.corespringsecurity.domain.Account;
+import com.example.corespringsecurity.domain.entity.Account;
+import com.example.corespringsecurity.dto.RoleDto;
 import com.example.corespringsecurity.repository.AccountRepository;
+import com.example.corespringsecurity.repository.AccountRoleRepository;
+import com.example.corespringsecurity.repository.RoleRepository;
 import com.example.corespringsecurity.service.AccountContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +25,7 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+    private final AccountRoleRepository accountRoleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,10 +37,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         List<GrantedAuthority> roles = new ArrayList<>();
 
-        log.info("getRole() = {}",account.get().getRole());
+//        log.info("getRole() = {}",account.get().getRole());
 
-        roles.add(new SimpleGrantedAuthority(account.get().getRole()));
+        for (RoleDto roleDto : accountRoleRepository.findRolesByAccountId(account.get().getId())) {
+            roles.add(new SimpleGrantedAuthority(roleDto.getRoleName()));
+        }
 
+        // join account, accountRole and role
+        // iterate above
+        // insert new SimpleGrantedAuthority into the roles
+        // setup querydsl
+        // get roles
+
+//        roles.add(new SimpleGrantedAuthority(account.get().getRole()));
+//
         return new AccountContext(account.get(), roles);
     }
 }
