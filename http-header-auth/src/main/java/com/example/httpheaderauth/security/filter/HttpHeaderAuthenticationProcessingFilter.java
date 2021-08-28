@@ -1,16 +1,10 @@
 package com.example.httpheaderauth.security.filter;
 
 import com.example.httpheaderauth.security.token.HttpHeaderAuthenticationToken;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,10 +14,8 @@ import java.io.IOException;
 
 public class HttpHeaderAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     public HttpHeaderAuthenticationProcessingFilter() {
-        super(new AntPathRequestMatcher("/api/**"));
+        super(new AntPathRequestMatcher("/api/**" ));
     }
 
     @Override

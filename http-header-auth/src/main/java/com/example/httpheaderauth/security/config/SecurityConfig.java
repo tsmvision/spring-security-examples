@@ -17,8 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("resources/static/**");
-        web.ignoring().antMatchers("/h2-console/**");
+        web.ignoring().antMatchers(
+                "resources/static/**",
+                "/h2-console/**",
+                "/api/auth"
+        );
     }
 
     @Override
@@ -34,11 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(httpHeaderAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http
-//                .antMatcher("/**")
                 .authorizeRequests()
                 // TODO: /api/auth -> permitAll()
                 .antMatchers("/api/auth").permitAll()
-                .antMatchers("/api/test").permitAll()
+                .antMatchers("/api/**").permitAll() // setup Role
                 .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()

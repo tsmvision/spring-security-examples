@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/root")
 public class RootTestController {
 
-    @GetMapping("/abcd")
+    @GetMapping
     public ResponseEntity<String> getAbcd() {
-        return new ResponseEntity<>("ABCD!!!", HttpStatus.OK);
+        return new ResponseEntity<>("ROOT!!!", HttpStatus.OK);
     }
 }
