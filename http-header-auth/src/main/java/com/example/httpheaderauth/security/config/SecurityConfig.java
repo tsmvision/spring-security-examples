@@ -1,0 +1,86 @@
+package com.example.httpheaderauth.security.config;
+
+import com.example.httpheaderauth.security.filter.HttpHeaderAuthenticationProcessingFilter;
+import com.example.httpheaderauth.security.handler.HttpHeaderAuthenticationFailureHandler;
+//import com.example.httpheaderauth.security.handler.HttpHeaderAuthenticationSuccessHandler;
+import com.example.httpheaderauth.security.provider.HttpHeaderAuthenticationProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+//@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("resources/static/**");
+        web.ignoring().antMatchers("/h2-console/**");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http
+                .authenticationProvider(httpHeaderAuthenticationProvider());
+
+        http
+                .addFilterBefore(httpHeaderAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http
+//                .antMatcher("/**")
+                .authorizeRequests()
+                // TODO: /api/auth -> permitAll()
+                .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/test").permitAll()
+                .antMatchers("/**").permitAll()
+                .anyRequest()
+                .authenticated()
+        ;
+
+        // TODO: authentication processing
+        // TODO: exception handling
+
+        http
+                .csrf().disable()
+                .cors().disable();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(httpHeaderAuthenticationProvider());
+    }
+
+//    @Bean
+//    public HttpHeaderAuthenticationSuccessHandler httpHeaderAuthenticationSuccessHandler() {
+//        return new HttpHeaderAuthenticationSuccessHandler();
+//    }
+
+    @Bean
+    public HttpHeaderAuthenticationFailureHandler httpHeaderAuthenticationFailureHandler() {
+        return new HttpHeaderAuthenticationFailureHandler();
+    }
+
+    @Bean
+    public HttpHeaderAuthenticationProvider httpHeaderAuthenticationProvider() {
+        return new HttpHeaderAuthenticationProvider();
+    }
+
+    @Bean
+    public HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationProcessingFilter() throws Exception {
+        HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationFilter = new HttpHeaderAuthenticationProcessingFilter();
+        httpHeaderAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+//        httpHeaderAuthenticationFilter.setAuthenticationSuccessHandler(httpHeaderAuthenticationSuccessHandler());
+        httpHeaderAuthenticationFilter.setAuthenticationFailureHandler(httpHeaderAuthenticationFailureHandler());
+        return httpHeaderAuthenticationFilter;
+    }
+}
