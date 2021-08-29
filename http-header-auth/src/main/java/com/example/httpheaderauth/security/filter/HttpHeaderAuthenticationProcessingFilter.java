@@ -27,16 +27,6 @@ public class HttpHeaderAuthenticationProcessingFilter extends AbstractAuthentica
                                 httpServletRequest.getHeader("auth")
                         )
                 );
-//
-//        AccountDto accountDto = objectMapper.readValue(httpServletRequest.getReader(), AccountDto.class);
-//
-//        if (StringUtils.isEmpty(accountDto.getUsername()) || StringUtils.isEmpty(accountDto.getPassword())) {
-//            throw new IllegalArgumentException("Username or Password is empty");
-//        }
-//
-//        AjaxAuthenticationToken authenticationToken = new AjaxAuthenticationToken(accountDto.getUsername(), accountDto.getPassword());
-//
-//        return getAuthenticationManager().authenticate(authenticationToken);
     }
 
     @Override

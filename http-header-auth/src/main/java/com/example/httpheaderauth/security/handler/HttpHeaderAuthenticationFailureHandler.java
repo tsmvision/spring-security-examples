@@ -43,21 +43,4 @@ public class HttpHeaderAuthenticationFailureHandler implements AuthenticationFai
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
         return httpServletResponse;
     }
-
-//    private String generateErrorMessage(Exception exception) {
-//
-//        String errorMessage = "Auth is null or invalid";
-//
-//        if (exception instanceof BadCredentialsException) {
-//            errorMessage = "Auth is null or invalid";
-//        }
-//        else if (exception instanceof DisabledException) {
-//            errorMessage = "Locked";
-//        }
-//        else if (exception instanceof CredentialsExpiredException) {
-//            errorMessage = "Expired Password";
-//        }
-//
-//        return errorMessage;
-//    }
 }
