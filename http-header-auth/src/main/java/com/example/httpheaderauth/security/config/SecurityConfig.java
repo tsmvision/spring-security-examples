@@ -17,7 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@Profile(value = {"development", "production"})
+@Profile(value = {"!test"})
 @RequiredArgsConstructor
 class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,6 +36,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .csrf().disable()
+                .cors().disable()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -55,9 +57,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
         ;
         // TODO: exception handling
-        http
-                .csrf().disable()
-                .cors().disable();
     }
 
     @Override

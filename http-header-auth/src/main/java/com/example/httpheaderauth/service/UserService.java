@@ -24,14 +24,14 @@ public class UserService {
             return null;
         }
 
-        return generateUserWithRoleList(userAndRoles);
-    }
-
-    private UserWithRoleListDto generateUserWithRoleList(@NotNull List<UserAndRoleDto> userAndRoles) {
         UserWithRoleListDto userWithRoleListDtos = new UserWithRoleListDto();
+        userWithRoleListDtos.setUserId(userAndRoles.get(0).getUserId());
+        userWithRoleListDtos.setUsername(userAndRoles.get(0).getUsername());
+
         for (UserAndRoleDto userAndRole: userAndRoles) {
             userWithRoleListDtos.addRole(userAndRole.getRoleName());
         }
+
         return userWithRoleListDtos;
     }
 }

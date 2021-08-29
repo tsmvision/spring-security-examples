@@ -15,7 +15,7 @@ import java.io.IOException;
 public class HttpHeaderAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     public HttpHeaderAuthenticationProcessingFilter() {
-        super(new AntPathRequestMatcher("/api/**" ));
+        super(new AntPathRequestMatcher("/api/**"));
     }
 
     @Override
