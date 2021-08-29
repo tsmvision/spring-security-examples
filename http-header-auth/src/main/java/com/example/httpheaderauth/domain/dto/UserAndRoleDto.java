@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserWithRolesDto {
+public class UserAndRoleDto {
     private Long userId;
     private String username;
     private Long roleId;

@@ -1,8 +1,8 @@
 package com.example.httpheaderauth.repository;
 
-import com.example.httpheaderauth.domain.dto.UserWithRolesDto;
+import com.example.httpheaderauth.domain.dto.UserAndRoleDto;
 import java.util.List;
 
 public interface UserRepositoryCustom {
-    List<UserWithRolesDto> findUserWithRoles(String username);
+    List<UserAndRoleDto> findUserWithRoles(String username);
 }

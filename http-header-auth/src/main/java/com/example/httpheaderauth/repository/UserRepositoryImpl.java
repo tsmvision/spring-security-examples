@@ -1,6 +1,6 @@
 package com.example.httpheaderauth.repository;
 
-import com.example.httpheaderauth.domain.dto.UserWithRolesDto;
+import com.example.httpheaderauth.domain.dto.UserAndRoleDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,13 +18,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<UserWithRolesDto> findUserWithRoles(String username) {
+    public List<UserAndRoleDto> findUserWithRoles(String username) {
         return queryFactory
 //                .selectDistinct()
                 .from(userRole)
                 .select(
                         Projections.constructor(
-                                UserWithRolesDto.class,
+                                UserAndRoleDto.class,
                                 user.id,
                                 user.username,
                                 role.id,

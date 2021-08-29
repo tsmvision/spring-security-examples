@@ -3,6 +3,9 @@ package com.example.httpheaderauth.security.config;
 import com.example.httpheaderauth.security.filter.HttpHeaderAuthenticationProcessingFilter;
 import com.example.httpheaderauth.security.handler.HttpHeaderAuthenticationFailureHandler;
 import com.example.httpheaderauth.security.provider.HttpHeaderAuthenticationProvider;
+//import com.example.httpheaderauth.security.service.CustomUserDetailsService;
+import com.example.httpheaderauth.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +18,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @Profile(value = {"development", "production"})
+@RequiredArgsConstructor
 class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserService userService;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -32,6 +38,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http
                 .authenticationProvider(httpHeaderAuthenticationProvider());
 
@@ -42,15 +49,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // TODO: /api/auth -> permitAll()
                 .antMatchers("/api/auth").permitAll()
-                .antMatchers("/api/**").permitAll() // setup Role
+                .antMatchers("/api/**").hasAnyRole("USER", "MANAGER") // setup Role
                 .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
         ;
-
-        // TODO: authentication processing
         // TODO: exception handling
-
         http
                 .csrf().disable()
                 .cors().disable();
@@ -68,7 +72,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public HttpHeaderAuthenticationProvider httpHeaderAuthenticationProvider() {
-        return new HttpHeaderAuthenticationProvider();
+//        return new HttpHeaderAuthenticationProvider(userService);
+        return new HttpHeaderAuthenticationProvider(userService);
     }
 
     @Bean

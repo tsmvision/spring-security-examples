@@ -1,5 +1,6 @@
 package com.example.httpheaderauth.security.service;
 
+//import lombok.AccessLevel;
 //import lombok.Getter;
 //import lombok.Setter;
 //import org.springframework.security.core.GrantedAuthority;
@@ -13,8 +14,7 @@ package com.example.httpheaderauth.security.service;
 //
 //    private CustomUserContext userContext;
 //
-//    public CustomUserContext(Account account, Collection<? extends GrantedAuthority> authorities) {
-////        super(account.getUsername(), account.getPassword(), authorities);
-////        this.account = account;
+//    public CustomUserContext(String username, Collection<? extends GrantedAuthority> authorities) {
+//        super(username, "dummyCredentials",authorities);
 //    }
 //}

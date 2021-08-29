@@ -1,4 +1,4 @@
-package com.example.corespringsecurity.config;
+package com.example.corespringsecurity.security.config;
 
 //import com.example.corespringsecurity.security.filter.AjaxLoginProcessingFilter;
 //import com.example.corespringsecurity.security.handler.CustomAccessDeniedHandler;

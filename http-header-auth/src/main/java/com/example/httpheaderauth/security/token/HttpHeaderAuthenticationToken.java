@@ -3,7 +3,6 @@ package com.example.httpheaderauth.security.token;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
-
 import java.util.Collection;
 
 public class HttpHeaderAuthenticationToken extends AbstractAuthenticationToken {
@@ -11,19 +10,19 @@ public class HttpHeaderAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 550L;
     private final Object principal;
     private Object credentials;
-    private String DUMMY_CREDENTIALS = "dummyCredentials";
+    private final String CREDENTIAL_NOT_IN_USE = "CREDENTIAL_NOT_IN_USE";
 
     public HttpHeaderAuthenticationToken(Object principal) {
         super((Collection) null);
         this.principal = principal;
-        this.credentials = DUMMY_CREDENTIALS;
+        this.credentials = CREDENTIAL_NOT_IN_USE;
         this.setAuthenticated(false);
     }
 
     public HttpHeaderAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
-        this.credentials = DUMMY_CREDENTIALS;
+        this.credentials = CREDENTIAL_NOT_IN_USE;
         super.setAuthenticated(true);
     }
 

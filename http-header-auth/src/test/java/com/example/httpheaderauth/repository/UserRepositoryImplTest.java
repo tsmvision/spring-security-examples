@@ -1,6 +1,6 @@
 package com.example.httpheaderauth.repository;
 
-import com.example.httpheaderauth.domain.dto.UserWithRolesDto;
+import com.example.httpheaderauth.domain.dto.UserAndRoleDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,8 +16,8 @@ class UserRepositoryImplTest {
 
     @Test
     public void findUserWithRolesTest() {
-        List<UserWithRolesDto> users = userRepository.findUserWithRoles("user");
-        for (UserWithRolesDto user: users) {
+        List<UserAndRoleDto> users = userRepository.findUserWithRoles("user");
+        for (UserAndRoleDto user: users) {
             System.out.println(user.getUserId());
             System.out.println(user.getUsername());
             System.out.println(user.getRoleId());
