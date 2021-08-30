@@ -25,16 +25,6 @@ public class UserService {
             return Optional.empty();
         }
 
-//        UserWithRoleListDto userWithRoleListDtos = new UserWithRoleListDto();
-//        userWithRoleListDtos.setUserId(userAndRoles.get(0).getUserId());
-//        userWithRoleListDtos.setUsername(userAndRoles.get(0).getUsername());
-//
-//        for (UserAndRoleDto userAndRole: userAndRoles) {
-//            userWithRoleListDtos.addRole(userAndRole.getRoleName());
-//        }
-//
-//        return Optional.of(userWithRoleListDtos);
-
         return generateUserWithRoleList(userAndRoles);
     }
 
