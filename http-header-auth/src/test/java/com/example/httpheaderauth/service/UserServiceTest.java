@@ -1,12 +1,11 @@
 package com.example.httpheaderauth.service;
 
-import com.example.httpheaderauth.domain.dto.UserAndRoleDto;
 import com.example.httpheaderauth.domain.dto.UserWithRoleListDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -17,13 +16,15 @@ class UserServiceTest {
 
     @Test
     public void findUserWithRolesTest() {
-        UserWithRoleListDto user = userService.findUserWithRoles("user3");
+        Optional<UserWithRoleListDto> user = userService.findUserWithRoles("user3");
 
-        System.out.println(user.getUserId());
-        System.out.println(user.getUsername());
+        if (user.isPresent()) {
+            System.out.println(user.get().getUserId());
+            System.out.println(user.get().getUsername());
 
-        for (String role: user.getRoles()) {
-            System.out.println(role);
+            for (String role: user.get().getRoles()) {
+                System.out.println(role);
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.authentication.DisabledException;
 @Getter
 @Setter
 @Builder
+// TODO: refactor code to use default error
 public class ErrorMessage {
     private String errorMessage;
 

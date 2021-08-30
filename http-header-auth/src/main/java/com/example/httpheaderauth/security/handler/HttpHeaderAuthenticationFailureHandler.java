@@ -4,6 +4,7 @@ import com.example.httpheaderauth.security.dto.ErrorMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,10 +23,11 @@ public class HttpHeaderAuthenticationFailureHandler implements AuthenticationFai
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException exception) throws IOException, ServletException {
 
-        writeHeaderAndErrorMessageToHttpServletResponse(
-                configureHttpServletResponse(httpServletResponse),
-                ErrorMessage.generateErrorMessageByException(exception)
-        );
+//        writeHeaderAndErrorMessageToHttpServletResponse(
+//                configureHttpServletResponse(httpServletResponse),
+//                ErrorMessage.generateErrorMessageByException(exception)
+//        );
+        throw new AuthorizationServiceException("");
     }
 
     private void writeHeaderAndErrorMessageToHttpServletResponse(HttpServletResponse httpServletResponse, String errorMessage) throws IOException {

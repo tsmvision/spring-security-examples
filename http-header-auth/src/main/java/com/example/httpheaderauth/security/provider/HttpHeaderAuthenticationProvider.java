@@ -13,13 +13,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class HttpHeaderAuthenticationProvider implements AuthenticationProvider {
 
-//    @Autowired
+    //    @Autowired
 //    private CustomUserDetailsService customUserDetailsService;
     private final UserService userService;
 
@@ -38,11 +40,16 @@ public class HttpHeaderAuthenticationProvider implements AuthenticationProvider 
 //                customUserContext.getAuthorities()
 //        );
 //
-//        UserWithRoleListDto userWithRoles = userService.findUserWithRoles(auth);
+        Optional<UserWithRoleListDto> userWithRoles = userService.findUserWithRoles(auth);
+
+        if (userWithRoles.isEmpty()) {
+            throw new BadCredentialsException("");
+        }
+
         return new HttpHeaderAuthenticationToken(
                 auth,
                 generateRoles(
-                        userService.findUserWithRoles(auth)
+                        userWithRoles.get()
                 )
         );
     }
@@ -60,6 +67,7 @@ public class HttpHeaderAuthenticationProvider implements AuthenticationProvider 
     }
 
     private List<GrantedAuthority> generateRoles(UserWithRoleListDto userWithRoles) {
+
         List<GrantedAuthority> roles = new ArrayList<>();
 
         for (String role : userWithRoles.getRoles()) {

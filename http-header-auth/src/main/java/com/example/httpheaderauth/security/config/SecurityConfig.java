@@ -14,7 +14,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @Profile(value = {"!test"})
@@ -37,14 +41,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf().disable()
-                .cors().disable()
+                .cors();
+        http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
-                .authenticationProvider(httpHeaderAuthenticationProvider());
-
-        http
+                .authenticationProvider(httpHeaderAuthenticationProvider())
                 .addFilterBefore(httpHeaderAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http
@@ -79,7 +82,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     public HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationProcessingFilter() throws Exception {
         HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationFilter = new HttpHeaderAuthenticationProcessingFilter();
         httpHeaderAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        httpHeaderAuthenticationFilter.setAuthenticationFailureHandler(httpHeaderAuthenticationFailureHandler());
+//        httpHeaderAuthenticationFilter.setAuthenticationFailureHandler(httpHeaderAuthenticationFailureHandler());
+//        httpHeaderAuthenticationFilter.setRequiresAuthenticationRequestMatcher(
+//                new OrRequestMatcher(
+//                        new AntPathRequestMatcher("/api/**")
+//                )
+//        )
+        ;
         return httpHeaderAuthenticationFilter;
     }
 }
