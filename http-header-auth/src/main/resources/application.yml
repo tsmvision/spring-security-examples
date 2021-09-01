@@ -18,6 +18,8 @@ spring:
     console:
       enabled: true
 #    static-path-pattern: /**
+  security:
+
 
 logging:
   level.org.hibernate:

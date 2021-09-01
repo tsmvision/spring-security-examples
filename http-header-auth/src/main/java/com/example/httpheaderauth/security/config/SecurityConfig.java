@@ -4,16 +4,21 @@ import com.example.httpheaderauth.security.filter.HttpHeaderAuthenticationProces
 import com.example.httpheaderauth.security.handler.HttpHeaderAuthenticationFailureHandler;
 import com.example.httpheaderauth.security.provider.HttpHeaderAuthenticationProvider;
 //import com.example.httpheaderauth.security.service.CustomUserDetailsService;
+import com.example.httpheaderauth.security.service.CustomUserDetailsService;
 import com.example.httpheaderauth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -73,9 +78,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public UserDetailsService customUserDetailsService() {
+        return new CustomUserDetailsService(userService);
+    }
+
+    @Bean
     public HttpHeaderAuthenticationProvider httpHeaderAuthenticationProvider() {
 //        return new HttpHeaderAuthenticationProvider(userService);
-        return new HttpHeaderAuthenticationProvider(userService);
+//        return new HttpHeaderAuthenticationProvider(userService);
+        return new HttpHeaderAuthenticationProvider(customUserDetailsService());
     }
 
     @Bean
@@ -91,4 +102,15 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
         return httpHeaderAuthenticationFilter;
     }
+
+    @Bean
+    public GrantedAuthoritiesMapper authoritiesMapper() {
+        SimpleAuthorityMapper mapper = new SimpleAuthorityMapper();
+        mapper.setPrefix(""); // this line is not required
+        mapper.setConvertToUpperCase(true); // convert your roles to uppercase
+//        mapper.setDefaultAuthority("USER"); // set a default role
+
+        return mapper;
+    }
+
 }
