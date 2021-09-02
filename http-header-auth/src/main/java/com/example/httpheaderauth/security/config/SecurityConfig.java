@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -20,6 +21,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -70,7 +73,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public HttpHeaderAuthenticationFailureHandler httpHeaderAuthenticationFailureHandler() {
+    public AuthenticationFailureHandler httpHeaderAuthenticationFailureHandler() {
         return new HttpHeaderAuthenticationFailureHandler();
     }
 
@@ -80,12 +83,12 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public HttpHeaderAuthenticationProvider httpHeaderAuthenticationProvider() {
+    public AuthenticationProvider httpHeaderAuthenticationProvider() {
         return new HttpHeaderAuthenticationProvider(customUserDetailsService());
     }
 
     @Bean
-    public HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationProcessingFilter() throws Exception {
+    public AbstractAuthenticationProcessingFilter httpHeaderAuthenticationProcessingFilter() throws Exception {
         HttpHeaderAuthenticationProcessingFilter httpHeaderAuthenticationFilter = new HttpHeaderAuthenticationProcessingFilter();
         httpHeaderAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
 //        httpHeaderAuthenticationFilter.setAuthenticationFailureHandler(httpHeaderAuthenticationFailureHandler());
@@ -107,5 +110,4 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return mapper;
     }
-
 }
