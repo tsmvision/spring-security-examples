@@ -1,7 +1,8 @@
 package com.example.httpheaderauth.security.service;
 
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,9 +13,7 @@ import java.util.Collection;
 @Setter
 public class CustomUserContext extends User {
 
-    private CustomUserContext userContext;
-
     public CustomUserContext(String username, Collection<? extends GrantedAuthority> authorities) {
-        super(username, "dummyCredentials",authorities);
+        super(username, "",authorities);
     }
 }

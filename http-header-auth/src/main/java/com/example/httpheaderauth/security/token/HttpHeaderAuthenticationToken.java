@@ -10,19 +10,19 @@ public class HttpHeaderAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 550L;
     private final Object principal;
     private Object credentials;
-    private final String CREDENTIAL_NOT_IN_USE = "CREDENTIAL_NOT_IN_USE";
+    private final String CREDENTIAL = "";
 
     public HttpHeaderAuthenticationToken(Object principal) {
         super((Collection) null);
         this.principal = principal;
-        this.credentials = CREDENTIAL_NOT_IN_USE;
+        this.credentials = CREDENTIAL;
         this.setAuthenticated(false);
     }
 
     public HttpHeaderAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
-        this.credentials = CREDENTIAL_NOT_IN_USE;
+        this.credentials = CREDENTIAL;
         super.setAuthenticated(true);
     }
 

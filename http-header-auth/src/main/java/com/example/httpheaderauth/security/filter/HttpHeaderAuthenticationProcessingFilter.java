@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class HttpHeaderAuthenticationProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
+    private final String HEADER_AUTHENTICATION_KEY = "auth";
+
     public HttpHeaderAuthenticationProcessingFilter() {
         super(new AntPathRequestMatcher("/api/**"));
     }
@@ -24,7 +26,7 @@ public class HttpHeaderAuthenticationProcessingFilter extends AbstractAuthentica
         return getAuthenticationManager()
                 .authenticate(
                         new HttpHeaderAuthenticationToken(
-                                httpServletRequest.getHeader("auth")
+                                httpServletRequest.getHeader(HEADER_AUTHENTICATION_KEY)
                         )
                 );
     }
