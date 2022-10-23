@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database:
+      platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
+#    hibernate:
+#      ddl-auto: update
+  #    defer-datasource-initialization: false
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+server:
+  port: 8080
+
+app.jwt.secret: 5BMpg{Euhup7g4X/ir[{.)B/,EmzHvHN+k8i8&)WhW]XFHe}%TNJ#dEqWi@$ZNJ4]r#z5H$p]fXa#5z#qJip*J=e2tX-g{U.mj=rLG.?Sr*gfbmu;9CRedqwJ.n*AG#b]ePi(Sh(%iU&D_JTc%e3[.{wr%%Y++:.7A2,?{g=5-EdL$Hd!)dJg+Q)&K*AHKkj:B$ZX8}:cwzK+)u77KY?7-f3c.wfa:r-J}GY/ia6XK6t8K!QNX5mJjzrzAKVY7R=u/p-pqBUk{2MB:Mr=P-pXy+*=n%zzJ$xdVF7Wh=b4*Mr
