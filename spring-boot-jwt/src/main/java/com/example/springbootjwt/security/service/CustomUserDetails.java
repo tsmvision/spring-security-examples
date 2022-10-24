@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class UserDetailsImpl implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private String username;
 

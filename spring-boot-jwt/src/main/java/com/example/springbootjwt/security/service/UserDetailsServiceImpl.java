@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<User> foundUserOptional = userRepository.findByUsername(username);
 
         if (foundUserOptional.isEmpty()) {
-            return new UserDetailsImpl();
+            return new CustomUserDetails();
         }
 
         return generateUserDetails(foundUserOptional.get());
@@ -35,7 +35,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserDetails generateUserDetails(@NotNull User foundUser) {
 
-        UserDetailsImpl userDetails = new UserDetailsImpl();
+        CustomUserDetails userDetails = new CustomUserDetails();
 
         userDetails.setUsername(foundUser.getUsername());
         userDetails.setPassword(foundUser.getPassword());
