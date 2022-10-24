@@ -1,4 +1,4 @@
-package com.example.springbootjwt.enums;
+package com.example.springbootjwt.security.enums;
 
 import lombok.Getter;
 

@@ -1,8 +1,7 @@
-package com.example.springbootjwt.config;
+package com.example.springbootjwt.security.config;
 
-import com.example.springbootjwt.filter.JwtTokenFilter;
+import com.example.springbootjwt.security.filter.JwtTokenFilter;
 import com.example.springbootjwt.repository.UserRepository;
-import com.example.springbootjwt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

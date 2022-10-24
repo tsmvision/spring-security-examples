@@ -1,7 +1,7 @@
-package com.example.springbootjwt.security;
+package com.example.springbootjwt.security.service;
 
 import com.example.springbootjwt.dto.UserDto;
-import com.example.springbootjwt.enums.TokenBody;
+import com.example.springbootjwt.security.enums.TokenBody;
 import com.sun.istack.NotNull;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class JwtTokenHelper {
+public class JwtTokenService {
     private static final long EXPIRE_DURATION = 24 * 60 * 60 * 1000; // 24 hour
 
     public static final String BEARER = "Bearer";

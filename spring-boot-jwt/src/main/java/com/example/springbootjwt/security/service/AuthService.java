@@ -1,4 +1,4 @@
-package com.example.springbootjwt.security;
+package com.example.springbootjwt.security.service;
 
 import com.example.springbootjwt.dto.AuthRequest;
 import com.example.springbootjwt.dto.AuthResponse;
@@ -19,7 +19,7 @@ import java.util.Optional;
 public class AuthService {
     private final UserService userService;
 
-    private final JwtTokenHelper jwtUtil;
+    private final JwtTokenService jwtUtil;
 
     private final PasswordEncoder passwordEncoder;
 

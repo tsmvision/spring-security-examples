@@ -1,4 +1,4 @@
-package com.example.springbootjwt.security;
+package com.example.springbootjwt.security.service;
 
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

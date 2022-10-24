@@ -1,4 +1,4 @@
-package com.example.springbootjwt.security;
+package com.example.springbootjwt.security.service;
 
 import com.example.springbootjwt.entity.Authority;
 import com.example.springbootjwt.entity.User;

@@ -1,17 +1,13 @@
-package com.example.springbootjwt.filter;
+package com.example.springbootjwt.security.filter;
 
-import com.example.springbootjwt.entity.Authority;
-import com.example.springbootjwt.entity.User;
-import com.example.springbootjwt.repository.UserRepository;
-import com.example.springbootjwt.security.*;
+import com.example.springbootjwt.security.service.CustomUserDetailsService;
+import com.example.springbootjwt.security.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
@@ -23,7 +19,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private final JwtTokenHelper jwtTokenHelper;
+    private final JwtTokenService jwtTokenHelper;
 
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -48,19 +44,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private boolean hasAuthorizationBearer(HttpServletRequest request) {
-        String header = request.getHeader(JwtTokenHelper.AUTHORIZATION);
+        String header = request.getHeader(JwtTokenService.AUTHORIZATION);
 
-        return !ObjectUtils.isEmpty(header) && header.startsWith(JwtTokenHelper.BEARER);
+        return !ObjectUtils.isEmpty(header) && header.startsWith(JwtTokenService.BEARER);
     }
 
     private String getAccessToken(HttpServletRequest request) {
-        String header = request.getHeader(JwtTokenHelper.AUTHORIZATION);
+        String header = request.getHeader(JwtTokenService.AUTHORIZATION);
 
         if (ObjectUtils.isEmpty(header)) {
             return "";
         }
 
-        String[] authorizationArray = header.split(JwtTokenHelper.BEARER);
+        String[] authorizationArray = header.split(JwtTokenService.BEARER);
 
         if (authorizationArray.length < 2) {
             return "";
