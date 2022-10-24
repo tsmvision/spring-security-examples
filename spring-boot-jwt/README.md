@@ -1,0 +1,1 @@
+## Spring boot 2.x + JWT + h2 database

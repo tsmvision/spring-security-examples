@@ -1,4 +1,4 @@
-package com.example.springbootjwt.service;
+package com.example.springbootjwt.security;
 
 import com.example.springbootjwt.dto.UserDto;
 import com.example.springbootjwt.enums.TokenBody;

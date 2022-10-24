@@ -1,14 +1,17 @@
 package com.example.springbootjwt.filter;
 
+import com.example.springbootjwt.entity.Authority;
 import com.example.springbootjwt.entity.User;
 import com.example.springbootjwt.repository.UserRepository;
-import com.example.springbootjwt.service.JwtTokenHelper;
+import com.example.springbootjwt.security.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
@@ -16,14 +19,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenHelper jwtTokenHelper;
 
-    private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,14 +39,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = getAccessToken(request);
 
         if (!jwtTokenHelper.validateAccessToken(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // TODO: validate username with database
-        String username = jwtTokenHelper.getUsernameFromJwtToken(token);
-
-        if (!hasUsernameInUserRepository(username)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -76,7 +70,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {
-        UserDetails userDetails = getUserDetails(token);
+
+        String username = jwtTokenHelper.getUsernameFromJwtToken(token);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
         // TODO: set authorities and credentials if necessary
         UsernamePasswordAuthenticationToken
@@ -86,20 +82,5 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 new WebAuthenticationDetailsSource().buildDetails(request));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-
-    private UserDetails getUserDetails(String token) {
-        User userDetails = new User();
-        String username = jwtTokenHelper.getUsernameFromJwtToken(token);
-
-        userDetails.setUsername(username);
-        // TODO: set user role
-        return userDetails;
-    }
-
-    public boolean hasUsernameInUserRepository(String username) {
-        Optional<User> foundUser = userRepository.findByUsername(username);
-
-        return foundUser.isPresent();
     }
 }

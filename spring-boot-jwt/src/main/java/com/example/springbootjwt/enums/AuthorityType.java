@@ -1,5 +1,5 @@
 package com.example.springbootjwt.enums;
 
-public enum UserRole {
+public enum AuthorityType {
     ROLE_USER, ROLE_ADMIN
 }

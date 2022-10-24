@@ -2,8 +2,8 @@ package com.example.springbootjwt.controller;
 
 import com.example.springbootjwt.dto.AuthRequest;
 import com.example.springbootjwt.dto.AuthResponse;
-import com.example.springbootjwt.service.AuthService;
-import com.example.springbootjwt.service.JwtTokenHelper;
+import com.example.springbootjwt.security.AuthService;
+import com.example.springbootjwt.security.JwtTokenHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,12 +1,7 @@
 package com.example.springbootjwt.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -16,7 +11,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,73 +20,31 @@ public class User implements UserDetails {
     @Column(name = "username", unique = true)
     private String username;
 
-//    @Column(name = "email")
-//    private String email;
-
     @Column(name = "password")
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    // TODO: prevent duplicated Authority
+    @OneToMany(mappedBy = "user")
+    @Setter(AccessLevel.PRIVATE)
+    private List<UserAuthority> userAuthorityList = new ArrayList<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
-        return authorities;
-    }
+    @Column(name = "account_non_Expired")
+    private boolean isAccountNonExpired = true;
 
-//    public Set<Role> getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(Set<Role> roles) {
-//        this.roles = roles;
-//    }
+    @Column(name = "account_non_locked")
+    private boolean isAccountNonLocked = true;
 
-//    public void addRole(Role role) {
-//        this.roles.add(role);
-//    }
+    @Column(name = "credentials_non_expired")
+    private boolean isCredentialsNonExpired = true;
 
-//    @Override
-//    public String getPassword() {
-//        return null;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return null;
-//    }
+    @Column(name = "enabled")
+    private boolean isEnabled = true;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
+    // TODO: convert to querydsl if performance issue found
+    public List<Authority> getAuthorityList() {
+        List<UserAuthority> userAuthorityList = this.getUserAuthorityList();
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    public void addRole(Role role) {
-        this.roles.add(role);
+        return userAuthorityList.stream().map(UserAuthority::getAuthority).toList();
     }
 }
 

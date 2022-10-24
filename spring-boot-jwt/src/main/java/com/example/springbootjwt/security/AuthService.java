@@ -1,9 +1,10 @@
-package com.example.springbootjwt.service;
+package com.example.springbootjwt.security;
 
 import com.example.springbootjwt.dto.AuthRequest;
 import com.example.springbootjwt.dto.AuthResponse;
 import com.example.springbootjwt.dto.UserDto;
 import com.example.springbootjwt.entity.User;
+import com.example.springbootjwt.service.UserService;
 import com.sun.istack.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -56,6 +57,7 @@ public class AuthService {
         return ResponseEntity.ok().headers(responseHeaders).body(authResponse);
     }
 
+    // TODO: refactor this
     public ResponseEntity<AuthResponse> generateSignUpResponseEntity(AuthRequest authRequest) {
 
         Optional<User> foundUser = userService.findByAuthRequest(authRequest);
@@ -84,9 +86,5 @@ public class AuthService {
 
     private ResponseEntity<AuthResponse> generateBadRequestResponseEntity() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResponse());
-    }
-
-    private boolean validateUsernameInUserEntity(String username) {
-        return userService.hasUsername(username);
     }
 }
