@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> foundUserOptional = userRepository.findByUsername(username);
 
         if (foundUserOptional.isEmpty()) {
-            return new CustomUserDetails();
+            return new UserDetailsImpl();
         }
 
         return generateUserDetails(foundUserOptional.get());
@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private UserDetails generateUserDetails(@NotNull User foundUser) {
 
-        CustomUserDetails userDetails = new CustomUserDetails();
+        UserDetailsImpl userDetails = new UserDetailsImpl();
 
         userDetails.setUsername(foundUser.getUsername());
         userDetails.setPassword(foundUser.getPassword());

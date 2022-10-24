@@ -53,11 +53,6 @@ public class SecurityConfig {
     }
 
 //    @Bean
-//    public JwtTokenFilter jwtTokenFilter() {
-//        return new JwtTokenFilter();
-//    };
-
-//    @Bean
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 //        return authConfig.getAuthenticationManager();
 //

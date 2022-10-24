@@ -1,11 +1,11 @@
 package com.example.springbootjwt.security.filter;
 
-import com.example.springbootjwt.security.service.CustomUserDetailsService;
 import com.example.springbootjwt.security.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -21,7 +21,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
     private final JwtTokenService jwtTokenHelper;
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -68,7 +68,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private void setAuthenticationContext(String token, HttpServletRequest request) {
 
         String username = jwtTokenHelper.getUsernameFromJwtToken(token);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
         // TODO: set authorities and credentials if necessary
         UsernamePasswordAuthenticationToken
